@@ -4,7 +4,7 @@ interface Category {
 }
 
 interface Product {
-  id: string;
+  id: number;
   name: string;
   price: number;
   description: string;
@@ -35,4 +35,20 @@ interface Order {
   products: Product[];
 }
 
-export type {Category, Product, Order, Login};
+interface ProductCardProps {
+  product: Product;
+}
+
+interface ProductsComponentProps {
+  products: Product[];
+}
+
+export type {
+  Category,
+  Product,
+  Order,
+  Login,
+  ProductCardProps,
+  User,
+  ProductsComponentProps,
+};
