@@ -3,7 +3,7 @@ import {products} from "../../../public/data";
 
 function Home() {
   return (
-    <div>
+    <div className=" overflow-auto">
       <Products products={products} />
     </div>
   );
