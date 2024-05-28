@@ -1,4 +1,4 @@
-import Products from "@/components/Products";
+import Products from "@/components/products";
 import {products} from "../../../public/data";
 
 function Home() {
