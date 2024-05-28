@@ -19,7 +19,8 @@ export const products: Product[] = [
       "Embrace efficiency and sophistication with the MacBook Air: lightweight design meets powerful performance, stunning Retina display brings your work to life, and all-day battery life keeps you productive wherever you go. Elevate your computing experience with the MacBook Air.",
     price: 999,
     stock: 10,
-    image: "https://i.blogs.es/3ddc31/ap5/500_333.jpeg",
+    image:
+      "https://d2ihpvt6nd5q28.cloudfront.net/wp-content/uploads/2023/01/macbook-air-silver-gallery2-20220606_GEO_MX.jpeg",
     categoryId: 2,
   },
   {
