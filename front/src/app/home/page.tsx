@@ -1,7 +1,12 @@
+"use client";
+
 import Products from "@/components/products";
-import {products} from "../../../public/data";
+import {ProductsContext} from "@/context/products";
+import {useContext} from "react";
 
 function Home() {
+  const {products} = useContext(ProductsContext);
+
   return (
     <div className=" overflow-auto">
       <Products products={products} />

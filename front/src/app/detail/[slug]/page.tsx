@@ -1,20 +1,24 @@
 "use client";
-
+import axios from "axios";
 import {useEffect, useState} from "react";
-import {products} from "../../../../public/data";
 import {Product} from "@/context/interfaces";
 
-function Detail({params}: {params: any}): JSX.Element {
-  const [product, setProduct] = useState<Product | null>(null);
+function Detail({params}: {params: {slug: string}}) {
+  const [product, setProduct] = useState({} as Product);
 
   useEffect(() => {
-    const product: Product | undefined = products.find(
-      (product) => product.id === Number(params.slug)
-    );
-    if (product) {
-      setProduct(product);
-    }
-  });
+    const getProduct = async () => {
+      const {data} = await axios.get(
+        `http://localhost:5000/products/${params.slug}`
+      );
+      setProduct(data);
+    };
+    getProduct();
+
+    return () => {
+      setProduct({} as Product);
+    };
+  }, []);
 
   return (
     <div className="flex flex-col self-center items-center align-middle p-10">
