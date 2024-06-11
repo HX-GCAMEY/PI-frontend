@@ -24,7 +24,7 @@ interface User {
   email: string;
   address: string;
   phone: string;
-  credential: Credential;
+  password: string;
 }
 
 interface Order {
@@ -37,6 +37,7 @@ interface Order {
 
 interface ProductCardProps {
   product: Product;
+  remove?: () => void;
 }
 
 interface ProductsComponentProps {
