@@ -1,16 +1,16 @@
 export const validateSignin = (signinValues: {
-  mail: string;
+  email: string;
   password: string;
 }) => {
   let errors = {};
-  if (!signinValues.mail) {
-    errors = {...errors, mail: "Email is required"};
+  if (!signinValues.email) {
+    errors = {...errors, email: "Email is required"};
   }
   if (!signinValues.password) {
     errors = {...errors, password: "Password is required"};
   }
-  if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(signinValues.mail)) {
-    errors = {...errors, mail: "Email is invalid"};
+  if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(signinValues.email)) {
+    errors = {...errors, email: "Email is invalid"};
   }
   if (signinValues.password.length < 6) {
     errors = {...errors, password: "Password must be at least 6 characters"};
@@ -29,22 +29,22 @@ export const validateSignin = (signinValues: {
 };
 
 export const validateSignup = (signipValues: {
-  mail: string;
+  email: string;
   password: string;
   first_name: string;
   last_name: string;
   phone: string;
-  adress: string;
+  address: string;
 }) => {
   let errors = {};
-  if (!signipValues.mail) {
-    errors = {...errors, mail: "Email is required"};
+  if (!signipValues.email) {
+    errors = {...errors, email: "Eemail is required"};
   }
   if (!signipValues.password) {
     errors = {...errors, password: "Password is required"};
   }
-  if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(signipValues.mail)) {
-    errors = {...errors, mail: "Email is invalid"};
+  if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(signipValues.email)) {
+    errors = {...errors, email: "Eemail is invalid"};
   }
   if (signipValues.password.length < 6) {
     errors = {...errors, password: "Password must be at least 6 characters"};
@@ -68,8 +68,8 @@ export const validateSignup = (signipValues: {
   if (!signipValues.phone) {
     errors = {...errors, phone: "Phone number is required"};
   }
-  if (!signipValues.adress) {
-    errors = {...errors, adress: "Adress is required"};
+  if (!signipValues.address) {
+    errors = {...errors, address: "Address is required"};
   }
 
   if (!/^\d+$/.test(signipValues.phone)) {

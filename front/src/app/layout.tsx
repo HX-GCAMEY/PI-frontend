@@ -4,6 +4,8 @@ import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import {ProductsProvider} from "@/context/products";
+import {UserProvider} from "@/context/user";
+import {CartProvider} from "@/context/cart";
 
 const inter = Inter({subsets: ["latin"]});
 
@@ -18,16 +20,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ProductsProvider>
-      <html lang="en">
-        <body className={inter.className}>
-          <Navbar />
-          <main className="flex flex-col items-center justify-center h-screen">
-            {children}
-          </main>
-          <Footer />
-        </body>
-      </html>
-    </ProductsProvider>
+    <UserProvider>
+      <CartProvider>
+        <ProductsProvider>
+          <html lang="en">
+            <body className={inter.className}>
+              <div className="min-h-screen flex flex-col">
+                <Navbar />
+                <main className="flex flex-col items-center justify-center flex-grow ">
+                  {children}
+                </main>
+                <Footer />
+              </div>
+            </body>
+          </html>
+        </ProductsProvider>
+      </CartProvider>
+    </UserProvider>
   );
 }
