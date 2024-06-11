@@ -7,6 +7,7 @@ interface CartContextType {
   cartItems: Product[];
   addToCart: (product: number) => void;
   removeFromCart: (product: number) => void;
+  proceedToCheckout: (userId: number) => void;
   total: number;
 }
 
@@ -31,11 +32,26 @@ const removeItem = (cartItems: Product[], product: number) => {
   return cartItems.filter((item) => item.id !== product);
 };
 
+const checkout = async (cartItems: Product[], userId: number) => {
+  const products = cartItems.map((item) => item.id);
+
+  try {
+    const success = await axios.post("http://localhost:5000/orders", {
+      products,
+      userId,
+    });
+    console.log(success);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const CartContext = createContext<CartContextType>({
   cartItems: [],
   addToCart: () => {},
   removeFromCart: () => {},
   total: 0,
+  proceedToCheckout: () => {},
 });
 
 export const CartProvider = ({children}: {children: React.ReactNode}) => {
@@ -53,13 +69,20 @@ export const CartProvider = ({children}: {children: React.ReactNode}) => {
     setCartItems(removeItem(cartItems, product));
   };
 
+  const proceedToCheckout = (userId: number) => {
+    checkout(cartItems, userId);
+    setCartItems([]);
+  };
+
   useEffect(() => {
     const total = cartItems.reduce((acc, item) => acc + item.price, 0);
     setTotal(total);
   }, [cartItems]);
 
   return (
-    <CartContext.Provider value={{cartItems, addToCart, removeFromCart, total}}>
+    <CartContext.Provider
+      value={{cartItems, addToCart, removeFromCart, total, proceedToCheckout}}
+    >
       {children}
     </CartContext.Provider>
   );
