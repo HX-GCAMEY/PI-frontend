@@ -1,7 +1,14 @@
+/**
+ * @type {import('@types/tailwindcss/tailwind-config').TailwindConfig}
+ */
+
 import type {Config} from "tailwindcss";
+import flowbite from "flowbite/plugin";
 
 const config: Config = {
   content: [
+    "./node_modules/flowbite-react/dist/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/flowbite-react/lib/**/*.js",
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
@@ -15,6 +22,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [flowbite],
 };
 export default config;

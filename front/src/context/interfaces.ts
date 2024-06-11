@@ -25,9 +25,15 @@ interface User {
   address: string;
   phone: string;
   password: string;
+  orders?: OrderResponse[];
 }
 
-interface Order {
+interface CreateOrder {
+  userId: number;
+  products: number[];
+}
+
+interface OrderResponse {
   id: number;
   status: string;
   date: string;
@@ -40,14 +46,27 @@ interface ProductCardProps {
   remove?: () => void;
 }
 
+interface OrderProps {
+  order: OrderResponse;
+}
+
 interface ProductsComponentProps {
   products: Product[];
+}
+
+interface UserResponse {
+  login: boolean;
+  user: Partial<User> | null;
+  token: string | null;
 }
 
 export type {
   Category,
   Product,
-  Order,
+  OrderResponse,
+  OrderProps,
+  CreateOrder,
+  UserResponse,
   Login,
   ProductCardProps,
   User,

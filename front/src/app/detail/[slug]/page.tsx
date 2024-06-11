@@ -2,12 +2,14 @@
 import axios from "axios";
 import {useEffect, useState, useContext} from "react";
 import {CartContext} from "../../../context/cart";
+import {UserContext} from "@/context/user";
 
 import {Product} from "@/context/interfaces";
 
 function Detail({params}: {params: {slug: string}}) {
   const [product, setProduct] = useState({} as Product);
   const {addToCart} = useContext(CartContext);
+  const {isLogged} = useContext(UserContext);
 
   useEffect(() => {
     const getProduct = async () => {
@@ -24,6 +26,10 @@ function Detail({params}: {params: {slug: string}}) {
   }, []);
 
   function addToCartHandler(product: number) {
+    if (!isLogged) {
+      alert("You must be logged in to add products to the cart");
+      return;
+    }
     addToCart(product);
   }
 
