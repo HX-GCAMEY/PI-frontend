@@ -1,12 +1,11 @@
 "use client";
 import {UserContext} from "@/context/user";
 import {useContext, useEffect} from "react";
-
 import SignInAlert from "@/components/signInAlert";
 import OrderCard from "@/components/orderCard";
 
 function Orders() {
-  const {getOrders, orders, user, isLogged} = useContext(UserContext);
+  const {getOrders, orders, isLogged} = useContext(UserContext);
 
   useEffect(() => {
     getOrders();

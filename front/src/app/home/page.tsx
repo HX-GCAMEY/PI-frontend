@@ -1,6 +1,6 @@
 "use client";
 
-import Products from "@/components/products";
+import Products from "@/components/Products";
 import {ProductsContext} from "@/context/products";
 import {useContext} from "react";
 

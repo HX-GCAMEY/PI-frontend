@@ -1,15 +1,7 @@
 "use client";
 import {createContext, useState, useEffect} from "react";
-import {Product} from "./interfaces";
-import axios from "axios";
-
-interface CartContextType {
-  cartItems: Product[];
-  addToCart: (product: number) => void;
-  removeFromCart: (product: number) => void;
-  proceedToCheckout: (userId: number) => void;
-  total: number;
-}
+import {Product, CartContextType} from "./interfaces";
+import {getData, postData} from "@/helpers/dataFetch";
 
 const addItem = async (
   cartItems: Product[],
@@ -21,7 +13,7 @@ const addItem = async (
     return [...cartItems, existingProduct];
   }
 
-  const {data} = await axios.get<Product>(
+  const data = await getData<Product>(
     `http://localhost:5000/products/${product}`
   );
 
@@ -36,7 +28,7 @@ const checkout = async (cartItems: Product[], userId: number) => {
   const products = cartItems.map((item) => item.id);
 
   try {
-    const success = await axios.post("http://localhost:5000/orders", {
+    const success = await postData("http://localhost:5000/orders", {
       products,
       userId,
     });
@@ -55,7 +47,7 @@ export const CartContext = createContext<CartContextType>({
 });
 
 export const CartProvider = ({children}: {children: React.ReactNode}) => {
-  const [cartItems, setCartItems] = useState([] as Product[]);
+  const [cartItems, setCartItems] = useState<Product[]>([]);
   const [total, setTotal] = useState(0);
 
   const addToCart = async (product: number) => {

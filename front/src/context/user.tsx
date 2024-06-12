@@ -2,19 +2,9 @@
 
 import {createContext, useState, useEffect} from "react";
 import {Login, OrderResponse, User, UserResponse} from "./interfaces";
+import {getData, postData} from "@/helpers/dataFetch";
 import axios from "axios";
-
-interface UserContextType {
-  user: Partial<UserResponse> | null;
-  setUser: React.Dispatch<React.SetStateAction<Partial<UserResponse> | null>>;
-  isLogged: boolean;
-  setIsLogged: (isLogged: boolean) => void;
-  signIn: (credentials: Login) => Promise<boolean>;
-  signUp: (user: Omit<User, "id">) => Promise<boolean>;
-  getOrders: () => void;
-  orders: OrderResponse[] | [];
-  logOut: () => void;
-}
+import {UserContextType} from "./interfaces";
 
 export const UserContext = createContext<UserContextType>({
   user: null,
@@ -31,11 +21,11 @@ export const UserContext = createContext<UserContextType>({
 export const UserProvider = ({children}: {children: React.ReactNode}) => {
   const [user, setUser] = useState<Partial<UserResponse> | null>(null);
   const [isLogged, setIsLogged] = useState(false);
-  const [orders, setOrders] = useState<OrderResponse[] | []>([]);
+  const [orders, setOrders] = useState<OrderResponse[]>([]);
 
   const signIn = async (credentials: Login) => {
     try {
-      const {data} = await axios.post(
+      const data = await postData<UserResponse, Login>(
         "http://localhost:5000/users/login",
         credentials
       );
@@ -52,7 +42,7 @@ export const UserProvider = ({children}: {children: React.ReactNode}) => {
 
   const signUp = async (user: Omit<User, "id">) => {
     try {
-      const {data} = await axios.post(
+      const data = await postData<User, Omit<User, "id">>(
         "http://localhost:5000/users/register",
         user
       );
@@ -70,7 +60,9 @@ export const UserProvider = ({children}: {children: React.ReactNode}) => {
 
   const getOrders = async () => {
     try {
-      const {data} = await axios.get("http://localhost:5000/users/orders/");
+      const data = await getData<OrderResponse[]>(
+        "http://localhost:5000/users/orders/"
+      );
 
       setOrders(data);
     } catch (error) {
