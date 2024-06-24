@@ -3,7 +3,6 @@ import {Inter} from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
-import {ProductsProvider} from "@/context/products";
 import {UserProvider} from "@/context/user";
 import {CartProvider} from "@/context/cart";
 
@@ -22,19 +21,15 @@ export default function RootLayout({
   return (
     <UserProvider>
       <CartProvider>
-        <ProductsProvider>
-          <html lang="en">
-            <body className={inter.className}>
-              <div className="min-h-screen flex flex-col">
-                <Navbar />
-                <main className="flex flex-grow justify-center ">
-                  {children}
-                </main>
-                <Footer />
-              </div>
-            </body>
-          </html>
-        </ProductsProvider>
+        <html lang="en">
+          <body className={inter.className}>
+            <div className="min-h-screen flex flex-col">
+              <Navbar />
+              <main className="flex flex-grow justify-center ">{children}</main>
+              <Footer />
+            </div>
+          </body>
+        </html>
       </CartProvider>
     </UserProvider>
   );
