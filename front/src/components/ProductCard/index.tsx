@@ -1,5 +1,4 @@
 import {ProductCardProps} from "@/context/interfaces";
-
 import Link from "next/link";
 
 function ProductCard({product}: ProductCardProps): JSX.Element {

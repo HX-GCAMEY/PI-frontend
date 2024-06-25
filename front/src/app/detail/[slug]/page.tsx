@@ -1,29 +1,9 @@
-"use client";
-import axios from "axios";
-import {useEffect, useState, useContext} from "react";
-import {CartContext} from "../../../context/cart";
-import {UserContext} from "@/context/user";
 
-import {Product} from "@/context/interfaces";
+import {fetchProductById} from "@/lib/server/fetchProducts";
 
-function Detail({params}: {params: {slug: string}}) {
-  const [product, setProduct] = useState({} as Product);
-  const {addToCart} = useContext(CartContext);
-  const {isLogged} = useContext(UserContext);
+async function Detail({params}: {params: {slug: string}}) {
+  const product = await fetchProductById(params.slug);
 
-  useEffect(() => {
-    const getProduct = async () => {
-      const {data} = await axios.get(
-        `http://localhost:5000/products/${params.slug}`
-      );
-      setProduct(data);
-    };
-    getProduct();
-
-    return () => {
-      setProduct({} as Product);
-    };
-  }, []);
 
   function addToCartHandler(product: number) {
     if (!isLogged) {
