@@ -1,11 +1,8 @@
-"use client";
+import Products from "@/components/Products";
+import {fetchProducts} from "@/lib/server/fetchProducts";
 
-import Products from "@/components/products";
-import {ProductsContext} from "@/context/products";
-import {useContext} from "react";
-
-function Home() {
-  const {products} = useContext(ProductsContext);
+async function Home() {
+  const products = await fetchProducts();
 
   return (
     <div className=" overflow-auto">

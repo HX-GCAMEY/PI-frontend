@@ -1,5 +1,5 @@
 import {ProductsComponentProps, Product} from "@/context/interfaces";
-import ProductCard from "../productCard";
+import ProductCard from "@/components/ProductCard";
 
 function Products({products}: ProductsComponentProps): JSX.Element {
   return (
