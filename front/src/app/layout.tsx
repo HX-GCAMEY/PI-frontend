@@ -3,6 +3,8 @@ import {Inter} from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import {CartProvider} from "@/context/cart";
+
 const inter = Inter({subsets: ["latin"]});
 
 export const metadata: Metadata = {
@@ -16,16 +18,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-
     <html lang="en">
       <body className={inter.className}>
-        <Navbar />
-        <main className="flex flex-col items-center justify-center h-screen">
-          {children}
-        </main>
-        <Footer />
+        <CartProvider>
+          <Navbar />
+          <main className="flex flex-col items-center justify-center h-screen">
+            {children}
+          </main>
+          <Footer />
+        </CartProvider>
       </body>
     </html>
-
   );
 }

@@ -60,33 +60,14 @@ interface UserResponse {
   token: string;
 }
 
-interface UserContextType {
-  user: Partial<UserResponse> | null;
-  setUser: React.Dispatch<React.SetStateAction<Partial<UserResponse> | null>>;
-  isLogged: boolean;
-  setIsLogged: (isLogged: boolean) => void;
-  signIn: (credentials: Login) => Promise<boolean>;
-  signUp: (user: Omit<User, "id">) => Promise<boolean>;
-  getOrders: () => void;
-  orders: OrderResponse[] | [];
-  logOut: () => void;
-}
-
 interface CartContextType {
   cartItems: Product[];
   addToCart: (product: number) => void;
   removeFromCart: (product: number) => void;
-  proceedToCheckout: (userId: number) => void;
   total: number;
 }
 
-interface ProductsContextType {
-  products: Product[];
-}
-
 export type {
-  ProductsContextType,
-  UserContextType,
   CartContextType,
   Category,
   Product,

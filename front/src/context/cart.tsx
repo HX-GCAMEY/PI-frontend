@@ -1,7 +1,8 @@
 "use client";
 import {createContext, useState, useEffect} from "react";
 import {Product, CartContextType} from "./interfaces";
-import {getData, postData} from "@/helpers/dataFetch";
+
+import {fetchProductById} from "@/lib/server/fetchProducts";
 
 const addItem = async (
   cartItems: Product[],
@@ -13,9 +14,7 @@ const addItem = async (
     return [...cartItems, existingProduct];
   }
 
-  const data = await getData<Product>(
-    `http://localhost:5000/products/${product}`
-  );
+  const data = await fetchProductById(product.toString());
 
   return [...cartItems, data];
 };
@@ -24,26 +23,11 @@ const removeItem = (cartItems: Product[], product: number) => {
   return cartItems.filter((item) => item.id !== product);
 };
 
-const checkout = async (cartItems: Product[], userId: number) => {
-  const products = cartItems.map((item) => item.id);
-
-  try {
-    const success = await postData("http://localhost:5000/orders", {
-      products,
-      userId,
-    });
-    console.log(success);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 export const CartContext = createContext<CartContextType>({
   cartItems: [],
   addToCart: () => {},
   removeFromCart: () => {},
   total: 0,
-  proceedToCheckout: () => {},
 });
 
 export const CartProvider = ({children}: {children: React.ReactNode}) => {
@@ -52,18 +36,11 @@ export const CartProvider = ({children}: {children: React.ReactNode}) => {
 
   const addToCart = async (product: number) => {
     const updatedCart = await addItem(cartItems, product);
-
     setCartItems(updatedCart);
   };
 
   const removeFromCart = (product: number) => {
-    console.log("click");
     setCartItems(removeItem(cartItems, product));
-  };
-
-  const proceedToCheckout = (userId: number) => {
-    checkout(cartItems, userId);
-    setCartItems([]);
   };
 
   useEffect(() => {
@@ -72,9 +49,7 @@ export const CartProvider = ({children}: {children: React.ReactNode}) => {
   }, [cartItems]);
 
   return (
-    <CartContext.Provider
-      value={{cartItems, addToCart, removeFromCart, total, proceedToCheckout}}
-    >
+    <CartContext.Provider value={{cartItems, addToCart, removeFromCart, total}}>
       {children}
     </CartContext.Provider>
   );
