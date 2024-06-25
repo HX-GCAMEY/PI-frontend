@@ -1,20 +1,13 @@
-"use client";
-
-import {useEffect, useState} from "react";
-import {products} from "../../../../public/data";
-import {Product} from "@/context/interfaces";
-
-function Detail({params}: {params: any}): JSX.Element {
-  const [product, setProduct] = useState<Product | null>(null);
-
-  useEffect(() => {
-    const product: Product | undefined = products.find(
-      (product) => product.id === Number(params.slug)
-    );
-    if (product) {
-      setProduct(product);
-    }
-  });
+function Detail({params}: {params: string}): JSX.Element {
+  const product = {
+    id: 1,
+    name: "Product 1",
+    price: 100,
+    description: "Description of product 1",
+    image: "https://via.placeholder.com/150",
+    categoryId: 1,
+    stock: 10,
+  };
 
   return (
     <div className="flex flex-col self-center items-center align-middle p-10">
