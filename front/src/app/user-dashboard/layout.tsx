@@ -1,4 +1,4 @@
-import DashboardSidebar from "@/components/sidebar";
+import DashboardSidebar from "../../components/sidebar";
 
 function DashboardLayout({
   children,
@@ -6,10 +6,7 @@ function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div
-      className="flex flex-row h-auto w-full overflow-hidden bg-gray-100
-     "
-    >
+    <div className="flex flex-row h-full w-full overflow-hidden bg-gray-100">
       <DashboardSidebar />
       <main className="h-full w-full pl-10 pt-10">{children}</main>
     </div>

@@ -1,10 +1,14 @@
 "use client";
 
 import {createContext, useState, useEffect} from "react";
-import {Login, OrderResponse, User, UserResponse} from "./interfaces";
-import {getData, postData} from "@/helpers/dataFetch";
+import {
+  Login,
+  OrderResponse,
+  User,
+  UserResponse,
+  UserContextType,
+} from "./interfaces";
 import axios from "axios";
-import {UserContextType} from "./interfaces";
 
 export const UserContext = createContext<UserContextType>({
   user: null,
@@ -25,10 +29,15 @@ export const UserProvider = ({children}: {children: React.ReactNode}) => {
 
   const signIn = async (credentials: Login) => {
     try {
-      const data = await postData<UserResponse, Login>(
-        "http://localhost:5000/users/login",
-        credentials
-      );
+      const response = await fetch("http://localhost:5000/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(credentials),
+      });
+
+      const data = await response.json();
 
       setUser(data);
       localStorage.setItem("user", JSON.stringify(data));
@@ -42,10 +51,15 @@ export const UserProvider = ({children}: {children: React.ReactNode}) => {
 
   const signUp = async (user: Omit<User, "id">) => {
     try {
-      const data = await postData<User, Omit<User, "id">>(
-        "http://localhost:5000/users/register",
-        user
-      );
+      const response = await fetch("http://localhost:5000/users/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+
+      const data = await response.json();
 
       if (data.id) {
         signIn({email: user.email, password: user.password});
@@ -60,9 +74,13 @@ export const UserProvider = ({children}: {children: React.ReactNode}) => {
 
   const getOrders = async () => {
     try {
-      const data = await getData<OrderResponse[]>(
-        "http://localhost:5000/users/orders/"
-      );
+      const token = localStorage.getItem("token");
+      const response = await fetch("http://localhost:5000/users/orders/", {
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
+      const data = await response.json();
 
       setOrders(data);
     } catch (error) {
@@ -81,7 +99,7 @@ export const UserProvider = ({children}: {children: React.ReactNode}) => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      axios.defaults.headers.common["Authorization"] = `${token}`;
+      // axios.defaults.headers.common["Authorization"] = `${token}`;
       setIsLogged(true);
     }
   }, [user]);

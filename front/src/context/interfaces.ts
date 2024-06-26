@@ -60,6 +60,14 @@ interface UserResponse {
   token: string;
 }
 
+interface CartContextType {
+  cartItems: Product[];
+  addToCart: (product: number) => void;
+  removeFromCart: (product: number) => void;
+  total: number;
+  proceedToCheckout: () => void;
+}
+
 interface UserContextType {
   user: Partial<UserResponse> | null;
   setUser: React.Dispatch<React.SetStateAction<Partial<UserResponse> | null>>;
@@ -72,21 +80,7 @@ interface UserContextType {
   logOut: () => void;
 }
 
-interface CartContextType {
-  cartItems: Product[];
-  addToCart: (product: number) => void;
-  removeFromCart: (product: number) => void;
-  proceedToCheckout: (userId: number) => void;
-  total: number;
-}
-
-interface ProductsContextType {
-  products: Product[];
-}
-
 export type {
-  ProductsContextType,
-  UserContextType,
   CartContextType,
   Category,
   Product,
@@ -98,4 +92,5 @@ export type {
   ProductCardProps,
   User,
   ProductsComponentProps,
+  UserContextType,
 };

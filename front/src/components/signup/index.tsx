@@ -1,11 +1,12 @@
 "use client";
-import {useState, useContext, use} from "react";
+import {useState, useContext} from "react";
 import {validateSignup} from "@/helpers/validation";
-import {UserContext} from "../../context/user";
 import {useRouter} from "next/navigation";
+import {UserContext} from "@/context/user";
 
 function SignupForm() {
   const router = useRouter();
+  const {signUp} = useContext(UserContext);
   const [signupValues, setSignupValues] = useState({
     email: "",
     password: "",
@@ -14,8 +15,6 @@ function SignupForm() {
     phone: "",
     address: "",
   });
-
-  const {signUp} = useContext(UserContext);
 
   const [errors, setErrors] = useState({} as {[key: string]: string});
 
