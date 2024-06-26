@@ -1,11 +1,8 @@
 "use client";
-import {useState, useContext, use} from "react";
+import {useState} from "react";
 import {validateSignup} from "@/helpers/validation";
-import {UserContext} from "../../context/user";
-import {useRouter} from "next/navigation";
 
 function SignupForm() {
-  const router = useRouter();
   const [signupValues, setSignupValues] = useState({
     email: "",
     password: "",
@@ -14,8 +11,6 @@ function SignupForm() {
     phone: "",
     address: "",
   });
-
-  const {signUp} = useContext(UserContext);
 
   const [errors, setErrors] = useState({} as {[key: string]: string});
 
@@ -28,18 +23,7 @@ function SignupForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const user = {
-      email: signupValues.email,
-      password: signupValues.password,
-      name: `${signupValues.first_name} ${signupValues.last_name}`,
-      phone: signupValues.phone,
-      address: signupValues.address,
-    };
-
-    const success = await signUp(user);
-
-    if (success) router.push("/home");
-    if (!success) alert("Invalid credentials");
+    alert("Signup form submitted");
   };
 
   return (
