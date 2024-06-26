@@ -1,8 +1,12 @@
 "use client";
-import {useState} from "react";
+import {useState, useContext} from "react";
+import {useRouter} from "next/navigation";
 import {validateSignin} from "@/helpers/validation";
+import {UserContext} from "@/context/user";
 
 function SiginForm() {
+  const {signIn} = useContext(UserContext);
+  const router = useRouter();
   const [errors, setErrors] = useState({} as {[key: string]: string});
 
   const [signinValues, setSigninValues] = useState({
@@ -18,7 +22,11 @@ function SiginForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    alert("Signin form submitted");
+    const success = await signIn(signinValues);
+
+    if (success) router.push("/home");
+
+    if (!success) alert("Invalid credentials");
   };
 
   return (

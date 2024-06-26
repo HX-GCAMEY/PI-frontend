@@ -1,11 +1,20 @@
 "use client";
 import {useContext} from "react";
 import {CartContext} from "@/context/cart";
+import {UserContext} from "@/context/user";
 
 function AddToCart({id}: {id: number}) {
   const {addToCart} = useContext(CartContext);
+  const {isLogged} = useContext(UserContext);
 
   function handleClick(event: React.MouseEvent<HTMLButtonElement>) {
+    if (!isLogged) {
+      event.preventDefault();
+
+      alert("You need to be logged in to add items to the cart");
+      return;
+    }
+
     addToCart(id);
   }
 
