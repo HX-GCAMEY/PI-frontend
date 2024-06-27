@@ -8,7 +8,7 @@ import {
   UserResponse,
   UserContextType,
 } from "./interfaces";
-import axios from "axios";
+import {postSignin, getUserOrders, postSignup} from "@/lib/server/fetchUsers";
 
 export const UserContext = createContext<UserContextType>({
   user: null,
@@ -29,15 +29,7 @@ export const UserProvider = ({children}: {children: React.ReactNode}) => {
 
   const signIn = async (credentials: Login) => {
     try {
-      const response = await fetch("http://localhost:5000/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(credentials),
-      });
-
-      const data = await response.json();
+      const data = await postSignin(credentials);
 
       setUser(data);
       localStorage.setItem("user", JSON.stringify(data));
@@ -51,15 +43,7 @@ export const UserProvider = ({children}: {children: React.ReactNode}) => {
 
   const signUp = async (user: Omit<User, "id">) => {
     try {
-      const response = await fetch("http://localhost:5000/users/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      });
-
-      const data = await response.json();
+      const data = await postSignup(user);
 
       if (data.id) {
         signIn({email: user.email, password: user.password});
@@ -74,13 +58,9 @@ export const UserProvider = ({children}: {children: React.ReactNode}) => {
 
   const getOrders = async () => {
     try {
-      const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/users/orders/", {
-        headers: {
-          Authorization: `${token}`,
-        },
-      });
-      const data = await response.json();
+      const token: string = localStorage.getItem("token") || "";
+
+      const data = await getUserOrders(token);
 
       setOrders(data);
     } catch (error) {
